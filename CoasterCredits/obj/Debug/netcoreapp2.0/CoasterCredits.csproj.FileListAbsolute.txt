@@ -1,0 +1,12 @@
+C:\Users\Dan\Documents\Final Year Project\CoasterCredits\CoasterCredits\bin\Debug\netcoreapp2.0\CoasterCredits.deps.json
+C:\Users\Dan\Documents\Final Year Project\CoasterCredits\CoasterCredits\bin\Debug\netcoreapp2.0\CoasterCredits.runtimeconfig.json
+C:\Users\Dan\Documents\Final Year Project\CoasterCredits\CoasterCredits\bin\Debug\netcoreapp2.0\CoasterCredits.runtimeconfig.dev.json
+C:\Users\Dan\Documents\Final Year Project\CoasterCredits\CoasterCredits\bin\Debug\netcoreapp2.0\CoasterCredits.dll
+C:\Users\Dan\Documents\Final Year Project\CoasterCredits\CoasterCredits\bin\Debug\netcoreapp2.0\CoasterCredits.pdb
+C:\Users\Dan\Documents\Final Year Project\CoasterCredits\CoasterCredits\obj\Debug\netcoreapp2.0\CoasterCredits.csprojResolveAssemblyReference.cache
+C:\Users\Dan\Documents\Final Year Project\CoasterCredits\CoasterCredits\obj\Debug\netcoreapp2.0\CoasterCredits.csproj.CoreCompileInputs.cache
+C:\Users\Dan\Documents\Final Year Project\CoasterCredits\CoasterCredits\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+C:\Users\Dan\Documents\Final Year Project\CoasterCredits\CoasterCredits\obj\Debug\netcoreapp2.0\CoasterCredits.AssemblyInfoInputs.cache
+C:\Users\Dan\Documents\Final Year Project\CoasterCredits\CoasterCredits\obj\Debug\netcoreapp2.0\CoasterCredits.AssemblyInfo.cs
+C:\Users\Dan\Documents\Final Year Project\CoasterCredits\CoasterCredits\obj\Debug\netcoreapp2.0\CoasterCredits.dll
+C:\Users\Dan\Documents\Final Year Project\CoasterCredits\CoasterCredits\obj\Debug\netcoreapp2.0\CoasterCredits.pdb

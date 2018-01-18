@@ -1,0 +1,56 @@
+﻿@model CoasterCredits.Models.Park
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Park</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ParkName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ParkName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ParkLocation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ParkLocation)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ParkLatitude)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ParkLatitude)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ParkLongitude)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ParkLongitude)
+        </dd>
+        <dt>
+            Coasters
+        </dt>
+        <dd>
+            @foreach (Coaster c in ViewBag.Coasters)
+            {
+                if (c.CoasterPark == Model.ParkName)
+                {
+                    @c.CoasterName; <br />
+                }
+            }
+        </dd>
+    </dl>
+</div>
+
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ParkID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

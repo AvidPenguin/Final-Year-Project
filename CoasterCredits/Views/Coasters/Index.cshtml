@@ -1,0 +1,101 @@
+﻿@model IEnumerable<CoasterCredits.Models.Coaster>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    Coaster
+                </th>
+                <th>
+                    Park
+                </th>
+                <th>
+                    Manufacturer
+                </th>
+                <th>
+                    Current Status
+                </th>
+                <th>
+                    Type
+                </th>
+                <th>
+                    Style
+                </th>
+                <th>
+                    Height
+                </th>
+                <th>
+                    Length
+                </th>
+                <th>
+                    Speed
+                </th>
+                <th>
+                    Inversions
+                </th>
+                <th style="text-align:center" width=80px>
+                    Edit
+                </th>
+                <th style="text-align:center" width=80px>
+                    Details
+                </th>
+                <th style="text-align:center" width=80px>
+                    Delete
+                </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CoasterName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CoasterPark)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CoasterManufacturer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CoasterStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CoasterType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CoasterStyle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CoasterHeight) ft
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CoasterLength) ft
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CoasterSpeed) mph
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CoasterInversions)
+            </td>
+            <td align="center" width=80px>
+                <img width=24 height=24 asp-action="Edit" asp-route-id="@item.CoasterID" src="~/images/iconEdit.png" />
+            </td>
+            <td align="center" width=80px>
+                <img width=24 height=24 asp-action="Details" asp-route-id="@item.CoasterID" src="~/images/iconDetails.png" />
+            </td>
+            <td align="center" width=80px>
+                <img width=24 height=24 asp-action="Delete" asp-route-id="@item.CoasterID" src="~/images/iconDelete.png" />
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

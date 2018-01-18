@@ -37,6 +37,9 @@ namespace CoasterCredits
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc();
+
+            services.AddDbContext<CoasterCreditsContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("CoasterCreditsContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

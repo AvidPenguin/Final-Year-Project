@@ -1,0 +1,48 @@
+﻿@model CoasterCredits.Models.Park
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>Park</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ParkName" class="control-label"></label>
+                <input asp-for="ParkName" class="form-control" />
+                <span asp-validation-for="ParkName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParkLocation" class="control-label"></label>
+                <input asp-for="ParkLocation" class="form-control" />
+                <span asp-validation-for="ParkLocation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParkLatitude" class="control-label"></label>
+                <input asp-for="ParkLatitude" class="form-control" />
+                <span asp-validation-for="ParkLatitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParkLongitude" class="control-label"></label>
+                <input asp-for="ParkLongitude" class="form-control" />
+                <span asp-validation-for="ParkLongitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

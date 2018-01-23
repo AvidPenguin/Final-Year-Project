@@ -63,6 +63,8 @@ namespace CoasterCredits.Controllers
                 StatusMessage = StatusMessage
             };
 
+            ViewBag.Tester = user.Test;
+
             return View(model);
         }
 

@@ -9,5 +9,10 @@ namespace CoasterCredits.Models
     // Add profile data for application users by adding properties to the ApplicationUser class
     public class ApplicationUser : IdentityUser
     {
+        public List<Coaster> UserCreditList { get; set; }
+        public List<Coaster> UserBucketList { get; set; }
+        public Coaster UserFavouriteCoaster { get; set; }
+        public string Test { get; set; } = "TestingString";
+        
     }
 }

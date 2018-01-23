@@ -6,14 +6,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoasterCredits.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace CoasterCredits.Controllers
 {
     public class CoastersController : Controller
     {
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly CoasterCreditsContext _context;
 
-        public CoastersController(CoasterCreditsContext context)
+        public CoastersController(
+            UserManager<ApplicationUser> userManager, 
+            CoasterCreditsContext context)
         {
             _context = context;
         }
@@ -143,6 +147,37 @@ namespace CoasterCredits.Controllers
         {
             var coaster = await _context.Coaster.SingleOrDefaultAsync(m => m.CoasterID == id);
             _context.Coaster.Remove(coaster);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        // GET: Coasters/AddCredit/5
+        public async Task<IActionResult> AddCredit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var coaster = await _context.Coaster
+                .SingleOrDefaultAsync(m => m.CoasterID == id);
+            if (coaster == null)
+            {
+                return NotFound();
+            }
+
+            return View(coaster);
+        }
+
+        // POST: Coasters/AddCredit/5
+        [HttpPost, ActionName("AddCredit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddCreditConfirmed(int id)
+        {
+            var coaster = await _context.Coaster.SingleOrDefaultAsync(m => m.CoasterID == id);
+
+
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

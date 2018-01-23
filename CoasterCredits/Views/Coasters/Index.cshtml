@@ -1,10 +1,20 @@
 ﻿@model IEnumerable<CoasterCredits.Models.Coaster>
 
+@inject SignInManager<ApplicationUser> SignInManager
+
 @{
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+@if (SignInManager.IsSignedIn(User))
+{
+    <h2>Logged in as @User.Identity.Name</h2>
+}
+else
+{
+    <h2>Not Logged In</h2>
+}
+
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -12,45 +22,38 @@
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    Coaster
-                </th>
-                <th>
-                    Park
-                </th>
-                <th>
-                    Manufacturer
-                </th>
-                <th>
-                    Current Status
-                </th>
-                <th>
-                    Type
-                </th>
-                <th>
-                    Style
-                </th>
-                <th>
-                    Height
-                </th>
-                <th>
-                    Length
-                </th>
-                <th>
-                    Speed
-                </th>
-                <th>
-                    Inversions
-                </th>
-                <th style="text-align:center" width=80px>
-                    Edit
-                </th>
-                <th style="text-align:center" width=80px>
-                    Details
-                </th>
-                <th style="text-align:center" width=80px>
-                    Delete
-                </th>
+            <th>
+                Coaster
+            </th>
+            <th>
+                Park
+            </th>
+            <th>
+                Manufacturer
+            </th>
+            <th>
+                Current Status
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Style
+            </th>
+            <th>
+                Height
+            </th>
+            <th>
+                Length
+            </th>
+            <th>
+                Speed
+            </th>
+            <th>
+                Inversions
+            </th>
+            <th>                    
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -86,14 +89,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.CoasterInversions)
             </td>
-            <td align="center" width=80px>
-                <img width=24 height=24 asp-action="Edit" asp-route-id="@item.CoasterID" src="~/images/iconEdit.png" />
-            </td>
-            <td align="center" width=80px>
-                <img width=24 height=24 asp-action="Details" asp-route-id="@item.CoasterID" src="~/images/iconDetails.png" />
-            </td>
-            <td align="center" width=80px>
-                <img width=24 height=24 asp-action="Delete" asp-route-id="@item.CoasterID" src="~/images/iconDelete.png" />
+            <td>
+                <a asp-action="AddCredit" asp-route-id="@item.CoasterID">Add Credit</a> |
+                <a asp-action="Edit" asp-route-id="@item.CoasterID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.CoasterID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.CoasterID">Delete</a>
             </td>
         </tr>
 }

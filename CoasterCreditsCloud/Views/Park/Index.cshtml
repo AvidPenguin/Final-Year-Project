@@ -1,0 +1,66 @@
+﻿@model IEnumerable<CoasterCreditsCloud.Models.Park>
+
+@{
+    ViewData["Title"] = "Parks";
+}
+
+<h1 style="text-align: center">Parks</h1>
+<h4 style="text-align: center">@Model.Count() Parks in the Database</h4>
+
+<p style="text-align: center">
+    @if (User.Identity.Name == "admin@ccc.com")
+    {
+        <input type="button" class="btn btn-primary" value="Create New Park" onclick="location.href='@Url.Action("Create", "Park")'" />
+    }
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <b>Park (Sort: </b>@Html.ActionLink("A-Z", "Index", new { sortOrder = "name_asc" }) ,  @Html.ActionLink("Z-A", "Index", new { sortOrder = "name_desc" }))
+            </th>
+            <th>
+                <b>Location (Sort: </b>@Html.ActionLink("A-Z", "Index", new { sortOrder = "loc_asc" }) ,  @Html.ActionLink("Z-A", "Index", new { sortOrder = "loc_desc" }))
+            </th>
+            <th>
+                <b>Coasters (Sort: </b>@Html.ActionLink("0-9", "Index", new { sortOrder = "coasters_asc" }) ,  @Html.ActionLink("9-0", "Index", new { sortOrder = "coasters_desc" }))
+            </th>
+            @if (User.Identity.Name == "admin@ccc.com")
+            {
+                <th></th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.ParkID">@item.ParkName</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParkLocation)
+            </td>
+            <td>
+                @{
+                    int count = 0;
+                    foreach (Coaster c in ViewBag.Coasters)
+                    {
+                        if (c.CoasterParkID == item.ParkID)
+                        {
+                            count++;
+                        }
+                    }
+                    <p>@count</p>
+                } 
+            </td>
+            @if (User.Identity.Name == "admin@ccc.com")
+            {
+                <td>
+                    <input type="button" class="btn btn-default" value="Edit" onclick="location.href='@Url.Action("Edit", "Park", new { Id = item.ParkID })'" />  
+                    <input type="button" class="btn btn-danger" value="Delete" onclick="location.href='@Url.Action("Delete", "Park", new { Id = item.ParkID })'" />
+                </td>
+            }
+        </tr>
+}
+    </tbody>
+</table>

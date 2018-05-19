@@ -1,0 +1,67 @@
+﻿@model CoasterCreditsCloud.Models.Credit
+
+@{
+    ViewData["Title"] = "Create";
+
+    bool newCred = true;
+    string coaster = null;
+    foreach (Coaster c in ViewBag.Coasters)
+    {
+        if (c.CoasterID == ViewBag.ID)
+        {
+            coaster = c.CoasterName;
+            break;
+        }
+    }
+    @foreach (Credit c in ViewBag.Credits)
+    {
+        if(c.User == User.Identity.Name && c.Coaster == ViewBag.ID.ToString())
+        {
+            newCred = false;   
+        }
+    }
+
+}
+
+<h2>@coaster</h2>
+    
+<h4>Credit</h4>
+<hr />
+
+@if (newCred)
+{
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <input style="display: none" readonly asp-for="Coaster" class="form-control" value="@(ViewBag.ID)" />
+                    <span asp-validation-for="Coaster" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="User" class="control-label"></label>
+                    <input style="display: none" readonly asp-for="User" class="form-control" value="@(User.Identity.Name)" />
+                    <span asp-validation-for="User" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <div>
+        <h1>You already have this credit!</h1>
+        <input type="button" class="btn btn-default" value="Go Back" onclick="location.href='@Url.Action("Index", "Credit")'" />
+    </div>
+    
+}
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

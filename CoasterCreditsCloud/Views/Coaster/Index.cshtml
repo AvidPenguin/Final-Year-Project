@@ -1,0 +1,86 @@
+﻿@model IEnumerable<CoasterCreditsCloud.Models.Coaster>
+
+<h1 style="text-align: center">Coasters</h1>
+<h4 style="text-align: center">@Model.Count() Coasters in the Database</h4>
+
+<p style="text-align: center">
+    @if (User.Identity.Name == "admin@ccc.com")
+    {
+        <input type="button" class="btn btn-primary" value="Create New Coaster" onclick="location.href='@Url.Action("Create", "Coaster")'" />
+    }
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.ActionLink("Coaster", "Index", new { sortOrder = ViewBag.NameSortParm })
+            </th>
+            <th>
+                @Html.ActionLink("Park", "Index", new { sortOrder = ViewBag.ParkSortParm })
+            </th>
+            <th>
+                @Html.ActionLink("Manufacturer", "Index", new { sortOrder = ViewBag.ManSortParm })
+            </th>
+            <th>
+                <b>Status</b>
+            </th>
+            <th>
+                <b>Type</b>
+            </th>
+            <th>
+                <b>Style</b>
+            </th>
+
+            @if (User.Identity.Name == "admin@ccc.com")
+            {
+                <th></th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.CoasterID">@item.CoasterName</a>
+            </td>
+            <td>
+                @foreach (Park p in ViewBag.Parks)
+                {
+                    if (item.CoasterParkID == p.ParkID)
+                    {
+                        <a asp-controller="Park" asp-action="Details" asp-route-id="@p.ParkID">@p.ParkName</a>
+                    }
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CoasterManufacturer)
+            </td>
+            <td>
+                @if (item.CoasterStatus == Coaster.EnumCoasterStatus.UnderConstruction)
+                {
+                    <div>Under Construction</div>
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.CoasterStatus)
+                }
+                
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CoasterType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CoasterStyle)
+            </td>
+            @if (User.Identity.Name == "admin@ccc.com")
+            {
+                <td>
+                    <input type="button" class="btn btn-default" value="Edit" onclick="location.href='@Url.Action("Edit", "Coaster", new { Id = item.CoasterID })'" />
+                    <input type="button" class="btn btn-danger" value="Delete" onclick="location.href='@Url.Action("Delete", "Coaster", new { Id = item.CoasterID })'" />
+                </td>
+            }
+        </tr>
+}
+    </tbody>
+</table>

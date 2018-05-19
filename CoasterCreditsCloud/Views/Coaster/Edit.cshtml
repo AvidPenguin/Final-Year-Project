@@ -1,0 +1,99 @@
+﻿@model CoasterCreditsCloud.Models.Coaster
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<h1>Update details for @Model.CoasterName</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CoasterID" />
+            <div class="form-group">
+                <b>Name</b>
+                <input asp-for="CoasterName" class="form-control" />
+                <span asp-validation-for="CoasterName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <b>Manufacturer</b>
+                <input asp-for="CoasterManufacturer" class="form-control" />
+                <span asp-validation-for="CoasterManufacturer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <b>Coaster Status</b>
+                <select asp-for="CoasterStatus" class="form-control">
+                    <option value="Open">Open</option>
+                    <option value="UnderConstruction">Under Construction</option>
+                    <option value="SBNO">SBNO</option>
+                    <option value="Removed">Removed</option>
+                    <option value="Relocated">Relocated</option>
+                </select>
+                <span asp-validation-for="CoasterStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <b>Coaster Type</b>
+                <select asp-for="CoasterType" class="form-control">
+                    <option value="Wooden">Wooden</option>
+                    <option value="Steel">Steel</option>
+                    <option value="Hybrid">Hybrid</option>
+                </select>
+                <span asp-validation-for="CoasterType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <b>Coaster Style</b>
+                <select asp-for="CoasterStyle" class="form-control">
+                    <option value="Sitdown">Sitdown</option>
+                    <option value="Inverted">Inverted</option>
+                    <option value="Standup">Standup</option>
+                    <option value="Flying">Flying</option>
+                    <option value="Wing">Wing</option>
+                    <option value="Swinging">Swinging</option>
+                    <option value="Bobsled">Bobsled</option>
+                </select>
+                <span asp-validation-for="CoasterStyle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <b>Height (ft)</b>
+                <input asp-for="CoasterHeight" class="form-control" />
+                <span asp-validation-for="CoasterHeight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <b>Length (ft)</b>
+                <input asp-for="CoasterLength" class="form-control" />
+                <span asp-validation-for="CoasterLength" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <b>Speed (mph)</b>
+                <input asp-for="CoasterSpeed" class="form-control" />
+                <span asp-validation-for="CoasterSpeed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <b>Inversions</b>
+                <input asp-for="CoasterInversions" class="form-control" />
+                <span asp-validation-for="CoasterInversions" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <b>Park</b>
+                <select asp-for="CoasterParkID" class="form-control">
+                    @foreach (Park p in ViewBag.Parks)
+                    {
+                        <option value="@p.ParkID">@p.ParkName</option>
+                    }
+                </select>
+                <span asp-validation-for="CoasterParkID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

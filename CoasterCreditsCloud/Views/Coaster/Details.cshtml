@@ -1,0 +1,108 @@
+﻿@model CoasterCreditsCloud.Models.Coaster
+
+@{
+    ViewData["Title"] = "Details";
+    bool ridden = false;
+    int credits = 0;
+    foreach (Credit c in ViewBag.Credits)
+    {
+        if (Model.CoasterID.ToString() == c.Coaster)
+        {
+            if(User.Identity.Name == c.User)
+            {
+                ridden = true;
+            }
+        }
+    }
+}
+<br />
+
+
+<img id="coasterImg" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"/>
+
+<div style="width: 100%; margin: 0 auto;">
+    <div style="display: inline-block; vertical-align: top" >
+            <h1>@Model.CoasterName</h1>
+            @if (User.Identity.Name != null)
+            {
+                if (ridden)
+                {
+                    foreach (Credit c in ViewBag.Credits)
+                    {
+                        if (c.Coaster == Model.CoasterID.ToString() && User.Identity.Name == c.User)
+                        {
+                            @if (User.Identity.Name == "admin@ccc.com")
+                            {
+                                <input type="button" class="btn btn-default" value="Edit Coaster" onclick="location.href='@Url.Action("Edit", "Coaster", new { Id = Model.CoasterID })'" />
+                                <input type="button" class="btn btn-danger" value="Delete Coaster" onclick="location.href='@Url.Action("Delete", "Coaster", new { Id = Model.CoasterID })'" />
+                            }
+                             <input type="button" class="btn btn-danger" value="Remove Credit" onclick="location.href='@Url.Action("Delete", "Credit", new { Id = c.CreditID })'" />
+                        }
+                    }
+                }
+                else
+                {
+                    @if (User.Identity.Name == "admin@ccc.com")
+                    {
+                        <input type="button" class="btn btn-default" value="Edit Coaster" onclick="location.href='@Url.Action("Edit", "Coaster", new { Id = Model.CoasterID })'" />
+                        <input type="button" class="btn btn-danger" value="Delete Coaster" onclick="location.href='@Url.Action("Delete", "Coaster", new { Id = Model.CoasterID })'" />
+                    }
+                    <input type="button" class="btn btn-primary" value="Add Credit" onclick="location.href='@Url.Action("Create", "Credit", new { Id = Model.CoasterID })'" />
+                }
+            }
+            <hr />
+            @foreach (Park p in ViewBag.Parks)
+            {
+                if (p.ParkID == Model.CoasterParkID)
+                {
+                    <h3> @p.ParkName, @p.ParkLocation </h3>
+                    <h4>Manufactured by @Model.CoasterManufacturer</h4>
+                    <h4>Current Status: @Model.CoasterStatus</h4>
+                    <h4>@Model.CoasterType @Model.CoasterStyle Coaster</h4>
+                    <h4>Height: @Model.CoasterHeight ft</h4>
+                    <h4>Length: @Model.CoasterLength ft</h4>
+                    <h4>Max Speed: @Model.CoasterSpeed mph</h4>
+                    <h4>Inversions: @Model.CoasterInversions</h4>
+                    foreach (Credit c in ViewBag.Credits)
+                    {
+                        if (c.Coaster == Model.CoasterID.ToString())
+                        {
+                            credits++;
+                        }
+                    }
+                }
+            }
+    </div><div style="display: inline-block; padding-left: 20px; vertical-align: top">
+    </div>
+</div>
+
+<hr />
+
+    @if (credits == 1)
+    {
+        <h3>@(credits) member has this credit.</h3>
+    }
+    else
+    {
+        <h3>@(credits) members have this credit.</h3>
+    }
+    
+    
+<script>
+    if (imageExists("../../images/coasters/@(Model.CoasterID).png"))
+    {
+        document.getElementById("coasterImg").src = "../../images/coasters/@(Model.CoasterID).png";
+    }
+
+    function imageExists(image_url) {
+
+        var http = new XMLHttpRequest();
+
+        http.open('HEAD', image_url, false);
+        http.send();
+
+        return http.status != 404;
+
+    }
+
+</script>

@@ -1,0 +1,30 @@
+﻿@model CoasterCreditsCloud.Models.Credit
+
+@{
+    ViewData["Title"] = "Delete";
+
+    string coaster = null;
+    foreach (Coaster c in ViewBag.Coasters)
+    {
+        if (c.CoasterID.ToString() == Model.Coaster)
+        {
+            coaster = c.CoasterName;
+            break;
+        }
+    }
+}
+
+<h2>
+    @coaster
+</h2>
+
+<h3>Are you sure you want to remove this credit?</h3>
+<div>
+    <hr />
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="CreditID" />
+        <input type="submit" value="Remove" class="btn btn-default" /> |
+        <input type="submit" value="Remove" class="btn btn-default" />
+    </form>
+</div>

@@ -1,0 +1,119 @@
+﻿@model IEnumerable<CoasterCreditsCloud.Models.Credit>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 style="text-align: center">Credits</h1>
+@if (User.Identity.Name == "admin@ccc.com")
+{
+    <h4 style="text-align: center"> @Model.Count() Credits in the Database </h4>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            @if (User.Identity.Name == "admin@ccc.com")
+            {
+                <th>
+                    <b>Credit ID</b>
+                </th>
+                <th>
+                    <b>Coaster ID</b>
+                </th>
+                <th>
+                    <b>Coaster</b>
+                </th>
+                <th>
+                    <b>Park</b>
+                </th>
+                <th>
+                    <b>User</b>
+                </th>
+                <th>
+                </th>
+            }
+            else
+            {
+                <th>
+                    <b>Coaster</b>
+                </th>
+                <th>
+                    <b>Park</b>
+                </th>
+                <th>
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        if (User.Identity.Name == "admin@ccc.com")
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreditID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Coaster)
+                </td>
+                @{
+                    foreach (Coaster c in ViewBag.Coasters)
+                    {
+                        if (c.CoasterID.ToString() == item.Coaster)
+                        {
+                            <td>
+                                @c.CoasterName
+                            </td>
+                            foreach (Park p in ViewBag.Parks)
+                            {
+                                if (c.CoasterParkID == p.ParkID)
+                                {
+                                    <td>
+                                        @p.ParkName
+                                    </td>
+                                }
+                            }
+                        }
+                    }
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.User)
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@item.CreditID">Delete</a>
+                </td>
+            </tr>
+        }
+        else if (item.User == User.Identity.Name)
+        {
+            <tr>
+                @{
+                    foreach (Coaster c in ViewBag.Coasters)
+                    {
+                        if (c.CoasterID.ToString() == item.Coaster)
+                        {
+                            <td>
+                                <a asp-controller="Coaster" asp-action="Details" asp-route-id="@c.CoasterID">@c.CoasterName</a>
+                            </td>
+                            foreach (Park p in ViewBag.Parks)
+                            {
+                                if (c.CoasterParkID == p.ParkID)
+                                {
+                                    <td>
+                                        <a asp-controller="Park" asp-action="Details" asp-route-id="@p.ParkID">@p.ParkName</a>
+                                    </td>
+                                }
+                            }
+                        }
+                    }
+                }
+                <td>
+                    <input type="button" class="btn btn-danger" value="Remove" onclick="location.href='@Url.Action("Delete", "Credit", new { Id = @item.CreditID })'" />
+                </td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>

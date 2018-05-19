@@ -1,0 +1,170 @@
+﻿@model CoasterCreditsCloud.Models.Park
+
+@{
+    ViewData["Title"] = "Create";
+}
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    #map {
+        height: 100%;
+    }
+
+    .controls {
+        margin-top: 10px;
+        border: 1px solid transparent;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        height: 32px;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    #pac-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 300px;
+    }
+
+        #pac-input:focus {
+            border-color: #4d90fe;
+        }
+
+    .pac-container {
+        font-family: Roboto;
+    }
+
+    #type-selector {
+        color: #fff;
+        background-color: #4d90fe;
+        padding: 5px 11px 0px 11px;
+    }
+
+        #type-selector label {
+            font-family: Roboto;
+            font-size: 13px;
+            font-weight: 300;
+        }
+</style>
+<style>
+    #target {
+        width: 345px;
+    }
+</style>
+
+<h2>Create</h2>
+
+<h4>Park</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ParkName" class="control-label"></label>
+                <input asp-for="ParkName" class="form-control" />
+                <span asp-validation-for="ParkName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParkLocation" class="control-label"></label>
+                <input asp-for="ParkLocation" class="form-control" />
+                <span asp-validation-for="ParkLocation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParkLatitude" class="control-label"></label>
+                <input asp-for="ParkLatitude" id="lat" class="form-control" />
+                <span asp-validation-for="ParkLatitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParkLongitude" class="control-label"></label>
+                <input asp-for="ParkLongitude" id="lng" class="form-control" />
+                <span asp-validation-for="ParkLongitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<input id="pac-input" class="controls" type="text" placeholder="Search Box">
+<div id="googleMap" style="width:100%;height:400px;"></div>
+<script>
+    function initAutocomplete() {
+        var map = new google.maps.Map(document.getElementById('googleMap'), {
+            center: { lat: 51.508742, lng: -0.120850 },
+            zoom: 13,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+        
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+        
+        map.addListener('bounds_changed', function () {
+            searchBox.setBounds(map.getBounds());
+        });
+
+        var markers = [];
+        searchBox.addListener('places_changed', function () {
+            var places = searchBox.getPlaces();
+
+            if (places.length == 0) {
+                return;
+            }
+            
+            markers.forEach(function (marker) {
+                marker.setMap(null);
+            });
+            markers = [];
+            
+            var bounds = new google.maps.LatLngBounds();
+            places.forEach(function (place) {
+                var icon = {
+                    url: place.icon,
+                    size: new google.maps.Size(71, 71),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(17, 34),
+                    scaledSize: new google.maps.Size(25, 25)
+                };
+
+                document.getElementById("lat").value = place.geometry.location.lat();
+                document.getElementById("lng").value = place.geometry.location.lng();
+                
+                markers.push(new google.maps.Marker({
+                    map: map,
+                    icon: icon,
+                    title: place.name,
+                    position: place.geometry.location
+
+                }));
+
+                if (place.geometry.viewport) {
+                    bounds.union(place.geometry.viewport);
+                } else {
+                    bounds.extend(place.geometry.location);
+                }
+            });
+            map.fitBounds(bounds);
+        });
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCIOCoA68uiDT6e9T3yQ3KlsGSVKt8NHQ&libraries=places&callback=initAutocomplete"
+        async defer></script>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
